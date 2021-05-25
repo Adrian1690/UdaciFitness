@@ -6236,7 +6236,7 @@ ua-parser-js@^0.7.18:
   resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.28.tgz#8ba04e653f35ce210239c64661685bf9121dec31"
   integrity sha512-6Gurc1n//gjp9eQNXjD9O3M/sMwVtN5S8Lv9bvOYBfKfDNiIIhqiyi01vMBO45u4zkDE420w/e0se7Vs+sIg+g==
 
-"udacifitness-calendar@github:ftrevo/react-native-calendars#master":
+udacifitness-calendar@ftrevo/react-native-calendars#master:
   version "10.0.0"
   resolved "https://codeload.github.com/ftrevo/react-native-calendars/tar.gz/28bcd0da3591bd3da0580e8b9c3752897a33c81b"
   dependencies:

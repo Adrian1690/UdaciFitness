@@ -4,16 +4,17 @@ import { View, Text } from 'react-native';
 import { receiveEntries, addEntry } from '../actions';
 import { timeToString, getDailyReminderValue } from '../utils/helpers';
 import { fetchCalendarResults } from '../utils/api';
-import UdaciFitnessCalendar from 'udacifitness-calendar';
-import { Agenda as UdaciFitnessCalendar } from 'react-native-calendars';
+//import UdaciFitnessCalendar from 'udacifitness-calendar';
+import { Agenda  as UdaciFitnessCalendar} from 'react-native-calendars';
 class History extends React.Component {
 
     componentDidMount() {
-        //console.log('hereee');
+        console.log('hereee');
         const { dispatch } = this.props
         fetchCalendarResults()
             .then((entries) => dispatch(receiveEntries(entries)))
             .then(({ entries }) => {
+                console.log(entries)
                 if(!entries[timeToString()]){
                     dispatch(addEntry({
                         [timeToString()]: getDailyReminderValue()
@@ -25,14 +26,11 @@ class History extends React.Component {
 
     renderItem = ({ today, ...metrics }, formattedDate, key) => (
         <View>
-            {
-                today ?
-                    <Text>{JSON.stringify(today)}</Text>
-                    :
-                    <Text>{JSON.stringify(metrics)}</Text>
-            }
+          {today
+            ? <Text>{JSON.stringify(today)}</Text>
+            : <Text>{JSON.stringify(metrics)}</Text>}
         </View>
-    )
+      )
 
     renderEmptyDate = (formattedDate) => {
         return (
