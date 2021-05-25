@@ -3,7 +3,7 @@ export const ADD_ENTRY = 'ADD_ENTRY';
 
 export const receiveEntries = entries => {
     return {
-        type: RECEIVE_ENTRY,
+        type: RECEIVE_ENTRIES,
         entries
     }
 }
