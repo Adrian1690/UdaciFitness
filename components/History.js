@@ -6,15 +6,17 @@ import { timeToString, getDailyReminderValue } from '../utils/helpers';
 import { fetchCalendarResults } from '../utils/api';
 //import UdaciFitnessCalendar from 'udacifitness-calendar';
 import { Agenda  as UdaciFitnessCalendar} from 'react-native-calendars';
+
 class History extends React.Component {
 
     componentDidMount() {
-        console.log('hereee');
+        //console.log('hereee');
         const { dispatch } = this.props
+
         fetchCalendarResults()
             .then((entries) => dispatch(receiveEntries(entries)))
             .then(({ entries }) => {
-                console.log(entries)
+                //console.log(entries)
                 if(!entries[timeToString()]){
                     dispatch(addEntry({
                         [timeToString()]: getDailyReminderValue()
