@@ -200,8 +200,11 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
     const key = timeToString();
 
+    console.log(key)
+    console.log(state[key][0])
+    console.log(state[key].today)
     return {
-        alreadyLogged: state[key] && typeof state[key].today === 'undefined'
+        alreadyLogged: state[key][0] && typeof state[key][0].today === 'undefined'
     }
 }
 export default connect(mapStateToProps)(AddEntry);
