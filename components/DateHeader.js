@@ -3,7 +3,7 @@ import { Text } from 'react-native';
 import { purple } from '../utils/colors';
 
 const DateHeader = ({date}) => (
-    <Text style={{color: purple, fontSize: 25, marginTop:25}}>
+    <Text style={{color: purple, fontSize: 25}}>
         {date}
     </Text>
 )

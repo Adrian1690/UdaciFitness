@@ -11,7 +11,8 @@ import { NavigationContainer } from '@react-navigation/native'
 import { FontAwesome, Ionicons } from '@expo/vector-icons'
 import { purple, white } from './utils/colors'
 import Constants from 'expo-constants';
-
+import { createStackNavigator } from '@react-navigation/stack';
+import EntryDetail from './components/EntryDetail';
 
 const Tab = Platform.OS === 'ios' ?
     createBottomTabNavigator()
@@ -19,44 +20,61 @@ const Tab = Platform.OS === 'ios' ?
     createMaterialTopTabNavigator()
 
 const TabNavigator = () => (
-    <NavigationContainer>
-        <Tab.Navigator
-            screenOptions={({ route }) => ({
-                tabBarIcon: ({ color, size }) => {
-                    let icon
-                    if (route.name === 'Add Entry') {
-                        icon = (
-                            <FontAwesome name="plus-square" size={size} color={color} />
-                        )
-                    } else if (route.name === 'History') {
-                        icon = (
-                            <Ionicons name="ios-bookmarks" size={size} color={color} />
-                        )
-                    }
-                    return icon
-                },
-            })}
-            tabBarOptions={{
-                activeTintColor: Platform.OS === 'ios' ? purple : white,
-                style: {
-                    backgroundColor: Platform.OS === 'ios' ? white : purple,
-                },
-                indicatorStyle: {
-                    // Android tab indicator (line at the bottom of the tab)
-                    backgroundColor: 'yellow',
-                },
-            }}
-        >
-            <Tab.Screen name="History" component={History} />
-            <Tab.Screen name="Add Entry" component={AddEntry} />
-        </Tab.Navigator>
-    </NavigationContainer>
+    <Tab.Navigator
+        screenOptions={({ route }) => ({
+            tabBarIcon: ({ color, size }) => {
+                let icon
+                if (route.name === 'AddEntry') {
+                    icon = (
+                        <FontAwesome name="plus-square" size={size} color={color} />
+                    )
+                } else if (route.name === 'History') {
+                    icon = (
+                        <Ionicons name="ios-bookmarks" size={size} color={color} />
+                    )
+                }
+                return icon
+            },
+        })}
+        tabBarOptions={{
+            activeTintColor: Platform.OS === 'ios' ? purple : white,
+            style: {
+                backgroundColor: Platform.OS === 'ios' ? white : purple,
+            },
+            indicatorStyle: {
+                // Android tab indicator (line at the bottom of the tab)
+                backgroundColor: 'yellow',
+            },
+        }}
+    >
+        <Tab.Screen name="History" component={History} />
+        <Tab.Screen name="AddEntry" component={AddEntry} />
+    </Tab.Navigator>
 )
 
-const UdaciStatusBar = ({backgroundColor, ...props}) => (
-    <View style={{backgroundColor, height: Constants.statusBarHeight}}>
+const UdaciStatusBar = ({ backgroundColor, ...props }) => (
+    <View style={{ backgroundColor, height: Constants.statusBarHeight }}>
         <StatusBar translucent backgroundColor={backgroundColor} {...props} />
     </View>
+)
+
+const Stack = createStackNavigator();
+
+const MainNavigator = () => (
+    <NavigationContainer>
+        <Stack.Navigator>
+            <Stack.Screen name="Home" component={TabNavigator} />
+            <Stack.Screen name="EntryDetail"
+                component={EntryDetail}
+                options={{
+                    headerTintColor: white,
+                    headerStyle: {
+                        backgroundColor: purple
+                    }
+                }}
+            />
+        </Stack.Navigator>
+    </NavigationContainer>
 )
 export default class App extends React.Component {
 
@@ -64,7 +82,7 @@ export default class App extends React.Component {
         return (
             <Provider store={createStore(reducer)}>
                 <UdaciStatusBar backgroundColor={purple} barStyle='light-content' />
-                <TabNavigator />
+                <MainNavigator />
             </Provider>
         )
     }

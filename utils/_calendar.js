@@ -25,6 +25,7 @@ function setDummyData () {
           swim: getRandomNumber(swim.max),
           sleep: getRandomNumber(sleep.max),
           eat: getRandomNumber(eat.max),
+          dayString: strTime
         }]
       : new Array();
   }

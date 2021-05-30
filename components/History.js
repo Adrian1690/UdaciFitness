@@ -9,21 +9,24 @@ import { Agenda  as UdaciFitnessCalendar} from 'react-native-calendars';
 import { white } from '../utils/colors';
 import DateHeader from './DateHeader';
 import MetricCard from './MetricCard';
+import { AsyncStorage } from 'react-native';
 
 class History extends React.Component {
 
     state = {
-        ready: false
+        ready: false,
+        calendarDateSelected: timeToString()
     }
 
     componentDidMount() {
+        AsyncStorage.clear();
         //console.log('hereee');
         const { dispatch } = this.props
 
         fetchCalendarResults()
             .then((entries) => dispatch(receiveEntries(entries)))
             .then(({ entries }) => {
-                //console.log(entries)
+                console.log(entries)
                 if(!entries[timeToString()]){
                     dispatch(addEntry({
                         [timeToString()]: getDailyReminderValue()
@@ -34,27 +37,34 @@ class History extends React.Component {
 
     }
 
-    renderItem = ({today, ...metrics}, formattedDate, key) => (
+    renderItem = ({today, dayString, ...metrics}) => (
             <View style={styles.item}>
             {
                 today ?
                     <View>
-                        {/*<DateHeader date={formattedDate} />*/}
+                        <DateHeader date={dayString} />
                         <Text style={styles.noDataText}>
                             {today}
                         </Text>
                     </View>
                 :
-                    <TouchableOpacity onPress={() => console.log('Pressed')}>
-                        <MetricCard metrics={metrics}/>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate(
+                        'EntryDetail',
+                        { entryId: dayString}
+                        )}>
+                        <MetricCard
+                            date={dayString}
+                            metrics={metrics}
+                        />
                     </TouchableOpacity>
             }
             </View>
     )
 
-    renderEmptyDate = (formattedDate) => {
+    renderEmptyDate = () => {
         return (
             <View style={styles.item}>
+                {/*<DateHeader date={this.state.calendarDateSelected} />*/}
                 <Text style={styles.noDataText}>
                     You didn't log any data on this day.
                 </Text>
@@ -72,6 +82,8 @@ class History extends React.Component {
 
         return (
             <UdaciFitnessCalendar
+                //onDayPress={(day)=>this.setState({calendarDateSelected: day.dateString})}
+                //onDayChange={(day)=>this.setState({calendarDateSelected: day.dateString})}
                 items={entries}
                 renderItem={this.renderItem}
                 renderEmptyDate={this.renderEmptyDate}
