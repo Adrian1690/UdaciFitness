@@ -61,10 +61,11 @@ class History extends React.Component {
             </View>
     )
 
-    renderEmptyDate = () => {
+    renderEmptyDate = day => {
+        const date = new Date(day).toISOString().split('T')[0]
         return (
             <View style={styles.item}>
-                {/*<DateHeader date={this.state.calendarDateSelected} />*/}
+                <DateHeader date={date} />
                 <Text style={styles.noDataText}>
                     You didn't log any data on this day.
                 </Text>

@@ -141,6 +141,7 @@ export function getMetricMetaInfo(metric) {
 
 export const getDailyReminderValue = () => {
     return [{
-        today: '👋🏻 Don\'t forget to log your data today'
+        today: '👋🏻 Don\'t forget to log your data today',
+        dayString: timeToString()
     }]
 }
