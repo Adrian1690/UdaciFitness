@@ -26,7 +26,7 @@ class History extends React.Component {
         fetchCalendarResults()
             .then((entries) => dispatch(receiveEntries(entries)))
             .then(({ entries }) => {
-                console.log(entries)
+                //console.log(entries)
                 if(!entries[timeToString()]){
                     dispatch(addEntry({
                         [timeToString()]: getDailyReminderValue()
