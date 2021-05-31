@@ -10,6 +10,7 @@ import { submitEntry, removeEntry } from '../utils/api';
 import { connect } from 'react-redux';
 import { addEntry } from '../actions';
 import { white, purple } from '../utils/colors';
+import { NavigationActions } from '@react-navigation/compat';
 
 const SubmitBtn = ({ onPress }) => (
     <TouchableOpacity
@@ -77,7 +78,7 @@ class AddEntry extends Component {
             eat: 0
         }))
 
-        // Nativate to hime
+        this.toHome()
 
         submitEntry({ key, entry });
 
@@ -91,9 +92,15 @@ class AddEntry extends Component {
             [key]: getDailyReminderValue()
         }))
 
-        // Route to home
+        this.toHome()
 
         removeEntry(key)
+    }
+
+    toHome = () => {
+        this.props.navigation.dispatch(NavigationActions.back({
+            key: 'AddEntry'
+        }))
     }
 
     render(){
@@ -200,9 +207,9 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
     const key = timeToString();
 
-    console.log(key)
-    console.log(state[key][0])
-    console.log(state[key].today)
+    //console.log(key)
+    //console.log(state[key][0])
+    //console.log(state[key].today)
     return {
         alreadyLogged: state[key][0] && typeof state[key][0].today === 'undefined'
     }
