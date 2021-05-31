@@ -19,7 +19,7 @@ class History extends React.Component {
     }
 
     componentDidMount() {
-        AsyncStorage.clear();
+        //AsyncStorage.clear();
         //console.log('hereee');
         const { dispatch } = this.props
 
@@ -85,6 +85,8 @@ class History extends React.Component {
             <UdaciFitnessCalendar
                 //onDayPress={(day)=>this.setState({calendarDateSelected: day.dateString})}
                 //onDayChange={(day)=>this.setState({calendarDateSelected: day.dateString})}
+                selected={timeToString()}
+                maxDate={timeToString()}
                 items={entries}
                 renderItem={this.renderItem}
                 renderEmptyDate={this.renderEmptyDate}
