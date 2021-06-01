@@ -13,6 +13,7 @@ import { purple, white } from './utils/colors'
 import Constants from 'expo-constants';
 import { createStackNavigator } from '@react-navigation/stack';
 import EntryDetail from './components/EntryDetail';
+import Live from './components/Live';
 
 const Tab = Platform.OS === 'ios' ?
     createBottomTabNavigator()
@@ -32,6 +33,10 @@ const TabNavigator = () => (
                     icon = (
                         <Ionicons name="ios-bookmarks" size={size} color={color} />
                     )
+                } else if (route.name === 'Live') {
+                    icon = (
+                        <Ionicons name="ios-speedometer" size={size} color={color} />
+                    )
                 }
                 return icon
             },
@@ -49,6 +54,7 @@ const TabNavigator = () => (
     >
         <Tab.Screen name="History" component={History} />
         <Tab.Screen name="AddEntry" component={AddEntry} />
+        <Tab.Screen name="Live" component={Live} />
     </Tab.Navigator>
 )
 
