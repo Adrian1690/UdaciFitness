@@ -45,7 +45,7 @@ class Live extends Component {
             timeInterval: 100,
             distanceInterval: 1
         }, ({ coords }) => {
-            console.log(coords.heading)
+            //console.log(coords.heading)
             const newDirection = calculateDirection(coords.heading)
             const { direction } = this.state;
             this.setState(() => ({
