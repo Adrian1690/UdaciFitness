@@ -15,31 +15,17 @@ class Live extends Component {
     }
 
     componentDidMount() {
-        Permissions.getAsync(Permissions.LOCATION)
-            .then(({ status }) => {
-                if (status === 'granted') {
-                    return this.setLocation();
-                }
-                this.setState({ status });
-            })
-            .catch((err) => {
-                console.warn("Error getting location permission", err);
-                this.setState({ status: 'undetermined' })
-            });
+        this.askPermission();
     }
 
     askPermission = () => {
-        Permissions.askAsync(Permissions.LOCATION)
-            .then(({ status }) => {
-                if (status === 'granted') {
-                    return this.setLocation();
-                }
-                this.setState({ status });
-            })
-            .catch((err) => {
-                console.warn("Error asking location permission", err);
-                this.setState({ status: 'undetermined' })
-            });
+        (async () => {
+            let { status } = await Location.requestForegroundPermissionsAsync();
+            if (status === 'granted') {
+                return this.setLocation();
+            }
+            this.setState({ status });
+        })()
     }
 
     setLocation = () => {
