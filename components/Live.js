@@ -13,6 +13,7 @@ class Live extends Component {
         status: null,
         direction: '',
     }
+
     componentDidMount() {
         Permissions.getAsync(Permissions.LOCATION)
             .then(({ status }) => {
@@ -26,6 +27,7 @@ class Live extends Component {
                 this.setState({ status: 'undetermined' })
             });
     }
+
     askPermission = () => {
         Permissions.askAsync(Permissions.LOCATION)
             .then(({ status }) => {
@@ -39,6 +41,7 @@ class Live extends Component {
                 this.setState({ status: 'undetermined' })
             });
     }
+
     setLocation = () => {
         Location.watchPositionAsync({
             accuracy: Location.Accuracy.BestForNavigation,
@@ -55,6 +58,7 @@ class Live extends Component {
             }))
         })
     }
+
     render() {
         const { coords, status, direction } = this.state;
         if (status === null) {
