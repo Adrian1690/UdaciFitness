@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { ActivityIndicator, Text, View, StyleSheet } from 'react-native'
+import { ActivityIndicator, Text, View, StyleSheet, Animated } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Foundation } from '@expo/vector-icons'
 import * as Location from 'expo-location';
@@ -12,6 +12,7 @@ class Live extends Component {
         coords: null,
         status: null,
         direction: '',
+        bounceValue: new Animated.Value(1)
     }
 
     componentDidMount() {
@@ -36,7 +37,15 @@ class Live extends Component {
         }, ({ coords }) => {
             //console.log(coords.heading)
             const newDirection = calculateDirection(coords.heading)
-            const { direction } = this.state;
+            const { direction, bounceValue } = this.state;
+
+            if(newDirection !== direction){
+                Animated.sequence([
+                    Animated.timing(bounceValue, { duration: 200, toValue: 1.04, useNativeDriver: true}),
+                    Animated.spring(bounceValue, { toValue: 1, friction: 4, useNativeDriver: true})
+                ]).start();
+            }
+
             this.setState(() => ({
                 coords,
                 status: 'granted',
@@ -46,7 +55,7 @@ class Live extends Component {
     }
 
     render() {
-        const { coords, status, direction } = this.state;
+        const { coords, status, direction, bounceValue } = this.state;
         if (status === null) {
             return (
                 <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -80,7 +89,9 @@ class Live extends Component {
             <View style={styles.container}>
                 <View style={styles.directionContainer}>
                     <Text style={styles.header}>You're heading</Text>
-                    <Text style={styles.direction}>{direction}</Text>
+                    <Animated.Text style={[styles.direction, {transform: [{scale: bounceValue}]}]}>
+                        {direction}
+                    </Animated.Text>
                 </View>
                 <View style={styles.metricContainer}>
                     <View style={styles.metric}>
